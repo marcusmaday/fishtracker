@@ -6,6 +6,7 @@
     <% @fish_types.each do |fish_type| %>
       <th><%= fish_type.name %></th>
     <% end %>
+    <th>Points</th>
   </tr>
 
 <% @users.each do |user| %>
@@ -16,7 +17,10 @@
         <%= @user_catches[user.id][fish_type.id] if @user_catches[user.id] %>
       </td>
     <% end %>
-  </tr
+    <td>
+      <%= @user_catches[user.id][:points] if @user_catches[user.id] %>
+    </td>
+  </tr>
 <% end %>
 
   <tr>
