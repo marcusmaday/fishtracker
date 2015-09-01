@@ -22,7 +22,7 @@
   <tr>
     <td></td>
     <% @fish_types.each do |fish_type| %>
-      <td class="keepers"><%= @user_catches[:keepers][fish_type.id] %></td>
+      <td class="keepers"><%= @keepers[fish_type.id] %></td>
     <% end %>
   </tr>
 </table>
