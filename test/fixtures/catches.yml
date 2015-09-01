@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fish_type_id: 1
+  user_id: 1
+  lat: 1.5
+  lon: 1.5
+  date: 2015-08-26 22:12:26
+  kept: false
+
+two:
+  fish_type_id: 1
+  user_id: 1
+  lat: 1.5
+  lon: 1.5
+  date: 2015-08-26 22:12:26
+  kept: false

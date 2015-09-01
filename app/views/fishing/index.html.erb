@@ -1,0 +1,32 @@
+<h1>GOIN FISHIN!</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <% @fish_types.each do |fish_type| %>
+      <th><%= fish_type.name %></th>
+    <% end %>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%= user.nickname %></td>
+    <% @fish_types.each do |fish_type| %>
+      <td onClick="window.location.href = '/fishing/catch?fish_type_id=<%= fish_type.id %>&user_id=<%= user.id %>'" >
+        <%= @user_catches[user.id][fish_type.id] if @user_catches[user.id] %>
+      </td>
+    <% end %>
+  </tr
+<% end %>
+
+  <tr>
+    <td></td>
+    <% @fish_types.each do |fish_type| %>
+      <td class="keepers"><%= @user_catches[:keepers][fish_type.id] %></td>
+    <% end %>
+  </tr>
+</table>
+
+<br />
+
+<%= link_to 'Show All Catches', catches_path %>

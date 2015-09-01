@@ -1,0 +1,41 @@
+<%= form_for(@catch) do |f| %>
+  <% if @catch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@catch.errors.count, "error") %> prohibited this catch from being saved:</h2>
+
+      <ul>
+      <% @catch.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :fish_type_id %><br>
+    <%= f.number_field :fish_type_id %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :lat %><br>
+    <%= f.text_field :lat %>
+  </div>
+  <div class="field">
+    <%= f.label :lon %><br>
+    <%= f.text_field :lon %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.datetime_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :kept %><br>
+    <%= f.check_box :kept %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

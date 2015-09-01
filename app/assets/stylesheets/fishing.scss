@@ -1,0 +1,21 @@
+// Place all the styles related to the fishing controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+table {
+  border-collapse: collapse;
+}
+table td, table th {
+  border: 1px solid black;
+}
+table tr:first-child th {
+  border-top: 0;
+}
+table tr:last-child td {
+  border-bottom: 0;
+}
+table tr td:first-child, table tr th:first-child {
+  border-left: 0;
+}
+table tr td:last-child, table tr th:last-child {
+  border-right: 0;
+}

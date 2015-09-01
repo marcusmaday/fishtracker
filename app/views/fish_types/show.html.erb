@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @fish_type.name %>
+</p>
+
+<p>
+  <strong>Point value:</strong>
+  <%= @fish_type.point_value %>
+</p>
+
+<%= link_to 'Edit', edit_fish_type_path(@fish_type) %> |
+<%= link_to 'Back', fish_types_path %>

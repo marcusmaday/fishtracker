@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Fish Types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Point value</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fish_types.each do |fish_type| %>
+      <tr>
+        <td><%= fish_type.name %></td>
+        <td><%= fish_type.point_value %></td>
+        <td><%= link_to 'Show', fish_type %></td>
+        <td><%= link_to 'Edit', edit_fish_type_path(fish_type) %></td>
+        <td><%= link_to 'Destroy', fish_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Fish type', new_fish_type_path %>
