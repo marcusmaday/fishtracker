@@ -6,6 +6,9 @@ table {
 }
 table td, table th {
   border: 1px solid black;
+  text-align: center;
+  font-size: 200%;
+  padding: 5px;
 }
 table tr:first-child th {
   border-top: 0;
