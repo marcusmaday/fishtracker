@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   get 'fishing/catch', :to => 'fishing#catch'
   get 'fishing/keep', :to => 'fishing#keep'
+  get 'fishing/undo', :to => 'fishing#undo'
   resources :fishing
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

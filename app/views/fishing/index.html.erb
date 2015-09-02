@@ -1,12 +1,10 @@
-<h1>GOIN FISHIN!</h1>
-
-<table class="table table-bordered">
+<table class="table table-bordered table-striped">
   <tr>
     <th></th>
     <% @fish_types.each do |fish_type| %>
       <th><%= fish_type.name %></th>
     <% end %>
-    <th>Points</th>
+    <th class="success">Points</th>
   </tr>
 
 <% @users.each do |user| %>
@@ -17,14 +15,14 @@
         <%= @user_catches[user.id][fish_type.id] if @user_catches[user.id] %>
       </td>
     <% end %>
-    <td>
+    <td class="success">
       <%= @user_catches[user.id][:points] if @user_catches[user.id] %>
     </td>
   </tr>
 <% end %>
 
-  <tr>
-    <td></td>
+  <tr class="success">
+    <td>Keepers</td>
     <% @fish_types.each do |fish_type| %>
       <td class="keepers"><%= @keepers[fish_type.id] %></td>
     <% end %>
@@ -32,5 +30,3 @@
 </table>
 
 <br />
-
-<%= link_to 'Show All Catches', catches_path %>

@@ -31,7 +31,7 @@ class FishingController < ApplicationController
     end
     user_catches[cat.user_id][cat.fish_type_id] += 1
     user_catches[cat.user_id][:points] += FishType.find(cat.fish_type_id).point_value
-    notice_string = User.find(params[:user_id]).nickname + " caught a " + FishType.find(params[:fish_type_id]).name + " <a href='/fishing/keep?catch_id=" + cat.id.to_s + "'>Mark as Keeper</a>|<a href='/fishing/undo?catch_id=" + cat.id.to_s + "'>Undo Catch</a>"
+    notice_string = User.find(params[:user_id]).nickname + " caught a " + FishType.find(params[:fish_type_id]).name + " <button type='button' class='btn btn-success' onClick=\"window.location.href = '/fishing/keep?catch_id=" + cat.id.to_s + "'\">Mark as Keeper</button> <button class='btn btn-warning' onClick=\"window.location.href = '/fishing/undo?catch_id=" + cat.id.to_s + "'\">Undo Catch</button>"
 
     Rails.cache.write(:user_catches, user_catches, expires_in: getExpiration())
 
@@ -52,6 +52,21 @@ class FishingController < ApplicationController
 
     redirect_to({action: "index"}, alert: notice_string.html_safe)
 
+  end
+
+  def undo
+    user_catches = getUserCatches()
+    cat = Catch.find(params[:catch_id])
+    user_catches[cat.user_id][cat.fish_type_id] -= 1
+    user_catches[cat.user_id][:points] -= FishType.find(cat.fish_type_id).point_value
+    cat.destroy
+
+    notice_string = "Catch undone"
+
+    Rails.cache.write(:user_catches, user_catches, expires_in: getExpiration())
+
+
+    redirect_to({action: "index"}, alert: notice_string.html_safe)
   end
 
   def getUserCatches
