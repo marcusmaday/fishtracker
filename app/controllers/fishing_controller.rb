@@ -20,7 +20,7 @@ class FishingController < ApplicationController
     gps_info = getGPSInfo()
     user_catches = getUserCatches()
     #Create the new catch and save it to get the id
-    cat = Catch.new({ user_id: params[:user_id], fish_type_id: params[:fish_type_id], lat: gps_info[:lat], lon: gps_info[:lon], date: Time.now })
+    cat = Catch.new({ user_id: params[:user_id], fish_type_id: params[:fish_type_id], lat: gps_info['latitude'], lon: gps_info['longitude'], date: Time.now })
     cat.save
 
     if user_catches[cat.user_id].nil?
