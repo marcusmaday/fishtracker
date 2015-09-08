@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="container">
+  <div class="container-fluid">
 <% flash.each do |key, value| %>
   <div class="bg-info alert alert-<%= key %>"><%= value.html_safe %></div>
 <% end %>
