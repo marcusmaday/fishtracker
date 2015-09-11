@@ -13,7 +13,7 @@
   <tr>
     <td><%= user.nickname %></td>
     <% @fish_types.each do |fish_type| %>
-      <td onClick="window.location.href = '/fishing/catch?fish_type_id=<%= fish_type.id %>&user_id=<%= user.id %>'" >
+      <td onClick="this.style.backgroundColor = '#FACC2E'; window.location.href = '/fishing/catch?fish_type_id=<%= fish_type.id %>&user_id=<%= user.id %>'" >
         <%= @user_catches[user.id][fish_type.id] if @user_catches[user.id] %>
       </td>
     <% end %>
