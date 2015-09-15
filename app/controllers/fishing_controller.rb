@@ -6,6 +6,8 @@ class FishingController < ApplicationController
   def index
     @user_catches = getUserCatches()
     @keepers = getKeepers()
+
+    @type_totals = getTypeTotals()
     logger.debug "user_catches=" + @user_catches.to_s
 
     @fish_types = FishType.all if @fish_type.nil?
@@ -19,6 +21,7 @@ class FishingController < ApplicationController
   def catch
     gps_info = getGPSInfo()
     user_catches = getUserCatches()
+    type_totals = getTypeTotals()
     #Create the new catch and save it to get the id
     cat = Catch.new({ user_id: params[:user_id], fish_type_id: params[:fish_type_id], lat: gps_info['latitude'], lon: gps_info['longitude'], date: Time.now })
     cat.save
@@ -30,10 +33,12 @@ class FishingController < ApplicationController
       user_catches[cat.user_id][cat.fish_type_id] = 0
     end
     user_catches[cat.user_id][cat.fish_type_id] += 1
+    type_totals[cat.fish_type_id] += 1
     user_catches[cat.user_id][:points] += FishType.find(cat.fish_type_id).point_value
     notice_string = User.find(params[:user_id]).nickname + " caught a " + FishType.find(params[:fish_type_id]).name + " <button type='button' class='btn btn-success' onClick=\"window.location.href = '/fishing/keep?catch_id=" + cat.id.to_s + "'\">Mark as Keeper</button> <button class='btn btn-warning' onClick=\"window.location.href = '/fishing/undo?catch_id=" + cat.id.to_s + "'\">Undo Catch</button>"
 
     Rails.cache.write(:user_catches, user_catches, expires_in: getExpiration())
+    Rails.cache.write(:type_totals, type_totals, expires_in: getExpiration())
 
     redirect_to({action: "index"}, alert: notice_string.html_safe)
   end
@@ -56,14 +61,17 @@ class FishingController < ApplicationController
 
   def undo
     user_catches = getUserCatches()
+    type_totals = getTypeTotals()
     cat = Catch.find(params[:catch_id])
     user_catches[cat.user_id][cat.fish_type_id] -= 1
+    type_totals[cat.fish_type_id] -= 1
     user_catches[cat.user_id][:points] -= FishType.find(cat.fish_type_id).point_value
     cat.destroy
 
     notice_string = "Catch undone"
 
     Rails.cache.write(:user_catches, user_catches, expires_in: getExpiration())
+    Rails.cache.write(:type_totals, type_totals, expires_in: getExpiration())
 
 
     redirect_to({action: "index"}, alert: notice_string.html_safe)
@@ -73,6 +81,7 @@ class FishingController < ApplicationController
     Rails.cache.fetch(:user_catches, expires_in: getExpiration()) do
       user_catches = {}
       keepers = getKeepers()
+      type_totals = getTypeTotals()
       point_values = getPointValues()
       users = User.all
       users.each do |user|
@@ -87,12 +96,24 @@ class FishingController < ApplicationController
         end
         user_catches[cat.user_id][cat.fish_type_id] += 1
         user_catches[cat.user_id][:points] += point_values[cat.fish_type_id]
+        type_totals[cat.fish_type_id] += 1
         if cat.kept == true
           keepers[cat.fish_type_id] += 1
         end
       end
       Rails.cache.write(:keepers, keepers, expires_in: getExpiration())
+      Rails.cache.write(:type_totals, type_totals, expires_in: getExpiration())
       user_catches
+    end
+  end
+  def getTypeTotals
+    Rails.cache.fetch(:type_totals, expires_in: getExpiration()) do
+      type_totals = {}
+      fish_types = FishType.all
+      fish_types.each do |fish_type|
+        type_totals[fish_type.id] = 0
+      end
+      type_totals
     end
   end
   def getKeepers

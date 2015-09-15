@@ -4,21 +4,21 @@
   <tr>
     <th></th>
     <% @fish_types.each do |fish_type| %>
-      <th><%= fish_type.name %></th>
+      <th><%= fish_type.name %><br><%= @type_totals[fish_type.id] %></th>
     <% end %>
     <th class="success">Points</th>
   </tr>
 
 <% @users.each do |user| %>
   <tr>
-    <td><%= user.nickname %></td>
+    <td><b><%= user.nickname %></b></td>
     <% @fish_types.each do |fish_type| %>
       <td onClick="this.style.backgroundColor = '#FACC2E'; window.location.href = '/fishing/catch?fish_type_id=<%= fish_type.id %>&user_id=<%= user.id %>'" >
-        <%= @user_catches[user.id][fish_type.id] if @user_catches[user.id] %>
+        <b><%= @user_catches[user.id][fish_type.id] if @user_catches[user.id] %></b>
       </td>
     <% end %>
     <td class="success">
-      <%= @user_catches[user.id][:points] if @user_catches[user.id] %>
+      <b><%= @user_catches[user.id][:points] if @user_catches[user.id] %></b>
     </td>
   </tr>
 <% end %>
@@ -26,7 +26,7 @@
   <tr class="success">
     <td><b>Keepers<b></td>
     <% @fish_types.each do |fish_type| %>
-      <td class="keepers"><%= @keepers[fish_type.id] %></td>
+      <td class="keepers"><b><%= @keepers[fish_type.id] %></b></td>
     <% end %>
   </tr>
 </table>
